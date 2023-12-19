@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Database } from "@tableland/sdk";
 import { Wallet, getDefaultProvider } from "ethers";
@@ -7,6 +7,7 @@ import { Wallet, getDefaultProvider } from "ethers";
 export default function App() {
   const [db, setDb] = useState(null);
   const [table, setTable] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const initDb = async () => {
@@ -40,11 +41,34 @@ export default function App() {
     setTable(name);
   };
 
+  const writeTable = async () => {
+    const { meta } = await db
+      .prepare(`insert into ${table} (val) values (?)`)
+      .bind("hello world")
+      .all();
+    await meta.txn?.wait();
+    const { results } = await db.prepare(`select * from ${table}`).all();
+    setData(results);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Button title="Create Table" onPress={createTable}></Button>
+      <Pressable style={styles.button} onPress={createTable}>
+        <Text>Create Table</Text>
+      </Pressable>
       <Text>Table: {table}</Text>
+      <br />
+      <Pressable style={styles.button} onPress={writeTable}>
+        <Text>Write Data</Text>
+      </Pressable>
+      <Text>
+        Data:{" "}
+        {data &&
+          data.map((v) => {
+            return JSON.stringify(v);
+          })}
+      </Text>
     </View>
   );
 }
@@ -55,5 +79,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  button: {
+    backgroundColor: "#75b6b5",
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
   },
 });
