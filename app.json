@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-app-2",
-    "slug": "my-app-2",
+    "name": "tableland-expo-template",
+    "slug": "tableland-expo-template",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,13 +15,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.tablelandexpotemplate"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.tablelandexpotemplate"
     },
     "web": {
       "favicon": "./assets/favicon.png"

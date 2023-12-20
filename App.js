@@ -58,7 +58,7 @@ export default function App() {
         <Text>Create Table</Text>
       </Pressable>
       <Text>Table: {table}</Text>
-      <br />
+      <Text />
       <Pressable style={styles.button} onPress={writeTable}>
         <Text>Write Data</Text>
       </Pressable>
